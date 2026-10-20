@@ -1,0 +1,35 @@
+# Local recordings, credentials and personal history
+/data/
+/data-backups/
+/logs/
+**/.env*
+!**/.env.example
+!**/.env.template
+**/*.pem
+**/*.key
+# Model weights, runtimes and compiled outputs
+/models/
+/build/
+**/node_modules/
+**/target/
+**/.next*/
+**/out/
+**/__pycache__/
+**/*.pyc
+**/*.exe
+**/*.dll
+**/*.pdb
+**/*.gguf
+**/*.onnx
+**/*.safetensors
+**/*.sqlite*
+**/*.db
+**/*.wav
+**/*.mp4
+**/*.mp3
+**/*.mov
+**/*.tsbuildinfo
+/tools/*/
+/tools/*.tgz
+/tools/github-sync.local.json
+/meetily/frontend/src-tauri/binaries/

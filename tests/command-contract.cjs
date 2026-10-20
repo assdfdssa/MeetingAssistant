@@ -1,0 +1,11 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const root='G:/MeetingAssistant/meetily/frontend/';
+const ui=fs.readFileSync(root+'src/components/classcatch/Classroom.tsx','utf8');
+const backend=fs.readFileSync(root+'src-tauri/src/lib.rs','utf8');
+const handler=backend.split('.invoke_handler(tauri::generate_handler![')[1].split('])')[0];
+const commands=new Set([...handler.matchAll(/(?:\w+::)*(\w+)\s*,/g)].map(m=>m[1]));
+const used=[...new Set([...ui.matchAll(/invoke(?:<[^>]*>)?\(\s*['"]([^'"]+)['"]/g)].map(m=>m[1]))];
+const missing=used.filter(name=>!commands.has(name));
+assert.deepEqual(missing,[],'UI commands missing from Tauri handler');
+fs.writeFileSync('G:/MeetingAssistant/logs/command-contract.json',JSON.stringify({checkedCommands:used,missing},null,2));
+console.log(`Verified ${used.length} frontend commands against native handlers`);

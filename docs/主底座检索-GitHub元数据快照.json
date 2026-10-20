@@ -1,0 +1,259 @@
+{
+  "checked_date": "2026-10-15",
+  "note": "GitHub API snapshot; not a global ranking or runtime benchmark. Snapshot metrics are retained; final user decision is recorded separately below.",
+  "selected_base": {
+    "repository": "Zackriya-Solutions/meetily",
+    "edition": "Community Edition",
+    "decision_date": "2026-10-15",
+    "decision_source": "User explicitly selected Meetily",
+    "status": "selected_for_implementation_not_runtime_validated",
+    "suggested_baseline_tag": "v0.4.1",
+    "baseline_commit_sha": null,
+    "stack": ["Tauri", "Rust", "Next.js/React", "TypeScript"],
+    "other_repositories_role": "research_reference_only"
+  },
+  "repositories": [
+    {
+      "repository": "Zackriya-Solutions/meetily",
+      "url": "https://github.com/Zackriya-Solutions/meetily",
+      "stars": 31751,
+      "pushed_at_utc": "2026-09-15T18:32:32Z",
+      "primary_language": "Rust",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "成熟桌面主底座候选；Rust/Tauri，国内流式ASR与补听需改造"
+    },
+    {
+      "repository": "chidiwilliams/buzz",
+      "url": "https://github.com/chidiwilliams/buzz",
+      "stars": 21998,
+      "pushed_at_utc": "2026-10-11T14:27:54Z",
+      "primary_language": "Python",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "Python主导，适合自主修改；现有AI摘要为完成后钩子，非课堂即时补听"
+    },
+    {
+      "repository": "screenpipe/screenpipe",
+      "url": "https://github.com/screenpipe/screenpipe",
+      "stars": 21944,
+      "pushed_at_utc": "2026-10-15T03:11:26Z",
+      "primary_language": "Rust",
+      "api_detected_license": "NOASSERTION",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "最新源码为商业许可；范围偏全电脑记录，不选作默认底座"
+    },
+    {
+      "repository": "QuentinFuxa/WhisperLiveKit",
+      "url": "https://github.com/QuentinFuxa/WhisperLiveKit",
+      "stars": 11143,
+      "pushed_at_utc": "2026-10-01T04:24:41Z",
+      "primary_language": "Python",
+      "api_detected_license": "Apache-2.0",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "实时语音服务组件，不是完整课堂桌面应用"
+    },
+    {
+      "repository": "fastrepl/anarlog",
+      "url": "https://github.com/fastrepl/anarlog",
+      "stars": 9513,
+      "pushed_at_utc": "2026-10-14T20:04:45Z",
+      "primary_language": "Rust",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "原Hyprnote；社区MIT、enterprise商业；Windows beta，仓库较大"
+    },
+    {
+      "repository": "thewh1teagle/vibe",
+      "url": "https://github.com/thewh1teagle/vibe",
+      "stars": 7781,
+      "pushed_at_utc": "2026-10-06T11:28:19Z",
+      "primary_language": "TypeScript",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "跨平台转写应用与HTTP API；录制中整段补听需另外确认/开发"
+    },
+    {
+      "repository": "SevaSk/ecoute",
+      "url": "https://github.com/SevaSk/ecoute",
+      "stars": 6039,
+      "pushed_at_utc": "2026-04-08T23:39:42Z",
+      "primary_language": "Python",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "Python实时转写参考；默认设备及非API英语限制，产品层薄"
+    },
+    {
+      "repository": "sohzm/cheating-daddy",
+      "url": "https://github.com/sohzm/cheating-daddy",
+      "stars": 5628,
+      "pushed_at_utc": "2026-07-23T18:48:18Z",
+      "primary_language": "JavaScript",
+      "api_detected_license": "GPL-3.0",
+      "default_branch": "master",
+      "archived": false,
+      "assessment": "Electron实时浮层；偏Gemini音视频问答，非本地录课档案"
+    },
+    {
+      "repository": "matthartman/ghost-pepper",
+      "url": "https://github.com/matthartman/ghost-pepper",
+      "stars": 3202,
+      "pushed_at_utc": "2026-07-27T14:25:47Z",
+      "primary_language": "Swift",
+      "api_detected_license": null,
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "macOS项目，排除Windows主底座；许可证未完成核实"
+    },
+    {
+      "repository": "pluja/whishper",
+      "url": "https://github.com/pluja/whishper",
+      "stars": 3089,
+      "pushed_at_utc": "2026-07-31T09:26:59Z",
+      "primary_language": "Svelte",
+      "api_detected_license": "AGPL-3.0",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "Web转写/字幕工具，AGPL；不是首选桌面实时课堂路径"
+    },
+    {
+      "repository": "Natively-AI-assistant/natively-cluely-ai-assistant",
+      "url": "https://github.com/Natively-AI-assistant/natively-cluely-ai-assistant",
+      "stars": 2972,
+      "pushed_at_utc": "2026-10-15T00:49:38Z",
+      "primary_language": "JavaScript",
+      "api_detected_license": "NOASSERTION",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "当前个人使用源码许可，非通用开源授权，未来商业路线受限"
+    },
+    {
+      "repository": "Vexa-ai/vexa",
+      "url": "https://github.com/Vexa-ai/vexa",
+      "stars": 2885,
+      "pushed_at_utc": "2026-10-11T18:23:01Z",
+      "primary_language": "Python",
+      "api_detected_license": "Apache-2.0",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "在线会议机器人/API，不能替代线下麦克风桌面前端"
+    },
+    {
+      "repository": "iamsrikanthnani/pluely",
+      "url": "https://github.com/iamsrikanthnani/pluely",
+      "stars": 2742,
+      "pushed_at_utc": "2026-09-21T06:53:11Z",
+      "primary_language": "TypeScript",
+      "api_detected_license": "GPL-3.0",
+      "default_branch": "master",
+      "archived": false,
+      "assessment": "最新v1闭源；旧GPL代码仍在历史，当前产品功能不可归给旧源码"
+    },
+    {
+      "repository": "Prat011/free-cluely",
+      "url": "https://github.com/Prat011/free-cluely",
+      "stars": 1691,
+      "pushed_at_utc": "2026-04-07T17:41:43Z",
+      "primary_language": "TypeScript",
+      "api_detected_license": "Apache-2.0",
+      "default_branch": "master",
+      "archived": false,
+      "assessment": "Electron浮层参考；README许可文字与LICENSE不一致，需以具体版本核实"
+    },
+    {
+      "repository": "amicalhq/amical",
+      "url": "https://github.com/amicalhq/amical",
+      "stars": 1557,
+      "pushed_at_utc": "2026-10-13T06:38:08Z",
+      "primary_language": "TypeScript",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "听写/快捷操作参考；README把实时会议转写标为计划中"
+    },
+    {
+      "repository": "silverstein/minutes",
+      "url": "https://github.com/silverstein/minutes",
+      "stars": 1550,
+      "pushed_at_utc": "2026-10-15T03:22:47Z",
+      "primary_language": "Rust",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "本地会议记忆/MCP；桌面路径偏Mac，不作为Windows优先候选"
+    },
+    {
+      "repository": "Muesli-HQ/muesli",
+      "url": "https://github.com/Muesli-HQ/muesli",
+      "stars": 1414,
+      "pushed_at_utc": "2026-10-14T21:14:42Z",
+      "primary_language": "Swift",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "原生macOS/Swift，排除Windows主底座"
+    },
+    {
+      "repository": "Valtora/Nojoin",
+      "url": "https://github.com/Valtora/Nojoin",
+      "stars": 83,
+      "pushed_at_utc": "2026-10-15T00:33:35Z",
+      "primary_language": "Python",
+      "api_detected_license": "NOASSERTION",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "元数据候选；许可与桌面适配未深核，不给优先推荐"
+    },
+    {
+      "repository": "naxhq/NexQ",
+      "url": "https://github.com/naxhq/NexQ",
+      "stars": 65,
+      "pushed_at_utc": "2026-09-28T22:37:26Z",
+      "primary_language": "TypeScript",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "功能吻合度高：Windows浮层、窗口转写、任务/RAG；低Star，需长时实测"
+    },
+    {
+      "repository": "armpro24-blip/MeetingBro",
+      "url": "https://github.com/armpro24-blip/MeetingBro",
+      "stars": 43,
+      "pushed_at_utc": "2026-06-23T21:03:09Z",
+      "primary_language": "Python",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "Python/Electron改造原型；滚动摘要实际只取新增片段；无GitHub Releases"
+    },
+    {
+      "repository": "estebanstifli/Meet2Notes",
+      "url": "https://github.com/estebanstifli/Meet2Notes",
+      "stars": 30,
+      "pushed_at_utc": "2026-10-01T07:31:09Z",
+      "primary_language": "Python",
+      "api_detected_license": "MIT",
+      "default_branch": "main",
+      "archived": false,
+      "assessment": "Python模块化备选；规模小，需验证安装及长时流式表现"
+    },
+    {
+      "repository": "talberthoule/backchannel",
+      "url": "https://github.com/talberthoule/backchannel",
+      "stars": 9,
+      "pushed_at_utc": "2026-09-25T20:35:32Z",
+      "primary_language": "Python",
+      "api_detected_license": "MIT",
+      "default_branch": "master",
+      "archived": false,
+      "assessment": "实时转写/智能体备选；规模很小，非主候选"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+[submodule "meetily/backend/whisper.cpp"]
+    path = meetily/backend/whisper.cpp
+    url = https://github.com/Zackriya-Solutions/whisper.cpp
+    branch = develop
