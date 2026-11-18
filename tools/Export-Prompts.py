@@ -17,7 +17,7 @@ example = {
 }
 doc = f'''# API 提示词清单：当前课堂补听助手
 
-整理日期：2026-10-19。此文件从当前项目代码导出，不读取 API 密钥或真实课堂内容。
+整理日期：2026-10-28。此文件从当前项目代码导出，不读取 API 密钥或真实课堂内容。
 
 ## 先看这里
 
@@ -144,7 +144,8 @@ extra_source = (src / 'classcatch/prompts.rs').read_text(encoding='utf-8')
 for name, title in [('ASK_PROMPT', '提问：约500字的一段回答'), ('LAYERED_PROMPT', '分层补听：先跟上、展开重点')]:
     actual = re.search(r'pub const '+name+r':&str=r#"(.*?)"#;', extra_source, re.S).group(1)
     doc += f'\n## {title}（完整 system 原文）\n\n来源：`classcatch/prompts.rs`，常量 `{name}`。\n\n```text\n{actual}\n```\n\nSHA256：`{hashlib.sha256(actual.encode()).hexdigest()}`。\n'
-doc += '\n## 新模式输出与兼容\n\n提问正文为 `answer.text`，依据为 `answer.segment_ids`。分层重点为 `layers`，每项包括 `title`、`classroom`（事实及引用）、`explanation`、`example`、`relation`。展开重点读取首次响应，不额外调用模型；继续提问才产生下一次请求。旧卡片缺少新字段时仍可读取。\n\n全局快捷键仍按最近范围生成；指定起止时间及窗口内提问草稿请点击生成按钮，草稿不通过快捷键隐式传递。\n'
+doc += '\n## 新模式输出与兼容\n\n2026-10-28 更新：提问与分层补听取消逐句引用；所有 `segment_ids` 为兼容旧结构保留为空数组。输入仅发送时间与正文，不发送片段编号。程序清理模型误填的引用，继续校验正文、长度、重点数与模式必需字段；不再因引用数量拒绝新卡片。课堂原文及所选范围继续保存。补听重点原有提示词与引用校验保持不变，旧卡片仍可查看原引用。\n\n提问正文为 `answer.text`。分层重点为 `layers`，每项包括 `title`、`classroom`（课堂复述）、`explanation`、`example`、`relation`。展开重点读取首次响应，不额外调用模型；继续提问才产生下一次请求。旧卡片缺少新字段时仍可读取。\n\n全局快捷键仍按最近范围生成；指定起止时间及窗口内提问草稿请点击生成按钮，草稿不通过快捷键隐式传递。\n'
+doc += '\n## 界面内修改提示词（2026-10-28）\n\n录课计时器左侧的“提示词设置”可编辑三种课堂生成提示词、云端摘要连接测试、本地检测system/user及ASR课程术语。本文展示内置默认原文；用户覆盖值保存在 data/settings.json 的 prompt_overrides，ASR术语仍为 vocabulary。运行时读取覆盖值，恢复默认后不保存冗余覆盖。生成提示词从下一次请求生效，术语从下一次建立ASR连接生效；不会触发API调用或切换云端/本地模式。动态request/transcript由程序填充，输出JSON结构校验仍有效。保存前备份至 data/settings.before-prompts.json。\n'
 (root / 'docs/API提示词清单.md').write_text(doc, encoding='utf-8')
 
 processor_path = src / 'summary/processor.rs'

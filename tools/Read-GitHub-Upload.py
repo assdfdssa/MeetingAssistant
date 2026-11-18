@@ -17,6 +17,11 @@ elif mode == "binary":
         start, length = int(sys.argv[3]), int(sys.argv[4])
         content = content[start:start+length]
     print(json.dumps({**file, "content": content}, ensure_ascii=False))
+elif mode == "selected-text":
+    paths = set(json.loads((ROOT / "build/github-publish-paths.json").read_text(encoding="utf-8")))
+    files = [f for f in manifest["files"] if not f["binary"] and f["path"] in paths]
+    start, count = int(sys.argv[2]), int(sys.argv[3])
+    print(json.dumps([{"path": f["path"], "mode": f["mode"], "type": "blob", "content": (Path(manifest["root"]) / f["path"]).read_bytes().decode("utf-8")} for f in files[start:start+count]], ensure_ascii=False))
 elif mode == "text":
     files = [f for f in manifest["files"] if not f["binary"]]
     start, count = int(sys.argv[2]), int(sys.argv[3])

@@ -634,6 +634,8 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             classcatch::class_get_settings,
+            classcatch::class_get_prompts,
+            classcatch::class_save_prompts,
             classcatch::class_local_status,
             classcatch::class_test_local,
             classcatch::class_save_settings,

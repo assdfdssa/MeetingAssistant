@@ -1,7 +1,9 @@
 //! Classroom additions to Meetily Community Edition. Recording remains owned by Meetily.
 pub mod core;
 mod prompts;
+mod prompt_settings;
 mod transport;
+mod generation;
 mod dsp;
 pub mod cloud;
 pub mod service;

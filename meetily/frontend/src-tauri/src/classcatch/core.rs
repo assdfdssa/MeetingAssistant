@@ -60,6 +60,21 @@ pub fn select_window(segments: &[Segment], req: &CatchupRequest) -> Vec<Segment>
         && s.end_ms > start && s.start_ms < req.anchor_ms).cloned().collect()
 }
 
+/// Freeze the recent window at the last non-empty final sentence at/before click.
+/// Explicit intervals keep their requested endpoints and overlap semantics.
+pub fn prepare_window(segments:&[Segment],req:&CatchupRequest,recent:bool)->Result<(CatchupRequest,Vec<Segment>),String>{
+    let mut actual=req.clone();
+    if recent {
+        actual.anchor_ms=segments.iter().filter(|s|s.is_final&&!s.text.trim().is_empty()
+            &&s.end_ms>s.start_ms&&s.end_ms<=req.anchor_ms).map(|s|s.end_ms).max()
+            .ok_or("还没有已确认的转写，请等一句话识别完成后再补听")?;
+    }
+    let mut evidence=select_window(segments,&actual);
+    if recent {evidence.retain(|s|s.end_ms<=actual.anchor_ms);}
+    if evidence.is_empty(){return Err("所选范围没有已确认转写。请等待识别，或换一个时间范围。".into());}
+    Ok((actual,evidence))
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Fact {
     pub text: String,
@@ -96,12 +111,16 @@ pub struct LearningLayer {
 }
 
 pub fn validate_card(card: &Card, evidence: &[Segment]) -> Result<(), String> {
+    validate_card_with_references(card, evidence, true)
+}
+
+fn validate_card_with_references(card: &Card, evidence: &[Segment], require_references: bool) -> Result<(), String> {
     let ids: HashSet<&str> = evidence.iter().map(|s| s.id.as_str()).collect();
     let check = |text: &str, refs: &[String]| -> Result<(), String> {
         if text.trim().is_empty() || text.chars().count() > 1200 {
             return Err("模型返回空内容或过长内容".into());
         }
-        if refs.is_empty() || refs.iter().any(|s| !ids.contains(s.as_str())) {
+        if (require_references && refs.is_empty()) || refs.iter().any(|s| !ids.contains(s.as_str())) {
             return Err("模型引用了不存在的课堂片段，请重试".into());
         }
         Ok(())
@@ -149,7 +168,7 @@ pub fn validate_card(card: &Card, evidence: &[Segment]) -> Result<(), String> {
 }
 
 pub fn validate_card_for_mode(card:&Card,evidence:&[Segment],mode:&str)->Result<(),String>{
-    validate_card(card,evidence)?;
+    validate_card_with_references(card,evidence, !["ask","layered"].contains(&mode))?;
     if mode=="ask" && card.answer.is_none(){return Err("模型未返回提问正文，请重试".into());}
     if mode=="layered" && card.layers.is_empty(){return Err("模型未返回可展开重点，请重试".into());}
     Ok(())
@@ -162,7 +181,7 @@ mod tests {
         Segment { id:id.into(), start_ms, end_ms, text:"下周三交报告，周五不用交".into(), is_final, revision:1 }
     }
     #[test]
-    fn anchor_is_click_time_and_not_last_transcript() {
+    fn explicit_window_does_not_reanchor_by_itself() {
         let req = CatchupRequest { anchor_ms: 600_000, lookback_ms:60_000, mode:"catch_up".into(), question:String::new() };
         assert!(select_window(&[seg("old", 200_000,210_000,true)], &req).is_empty());
     }
@@ -171,6 +190,30 @@ mod tests {
         let req = CatchupRequest { anchor_ms:600_000, lookback_ms:300_000, mode:"tasks".into(), question:String::new() };
         let rows=vec![seg("before",1,299_999,true),seg("boundary",299_000,301_000,true),seg("middle",400_000,420_000,true),seg("future",601_000,602_000,true),seg("partial",500_000,501_000,false)];
         assert_eq!(select_window(&rows,&req).iter().map(|s|s.id.as_str()).collect::<Vec<_>>(),vec!["boundary","middle"]);
+    }
+    #[test]
+    fn recent_window_uses_last_final_end_not_recording_clock(){
+        let req=CatchupRequest{anchor_ms:600_000,lookback_ms:60_000,mode:"catch_up".into(),question:String::new()};
+        let rows=vec![seg("before",139_000,149_000,true),seg("first",150_000,170_000,true),seg("last",190_000,210_000,true),seg("partial",590_000,600_000,false)];
+        let(actual,evidence)=prepare_window(&rows,&req,true).unwrap();
+        assert_eq!(actual.anchor_ms,210_000);assert_eq!(actual.lookback_ms,60_000);
+        assert_eq!(evidence.iter().map(|s|s.id.as_str()).collect::<Vec<_>>(),vec!["first","last"]);
+        let(exact,_)=prepare_window(&rows,&CatchupRequest{anchor_ms:210_000,..req},false).unwrap();assert_eq!(exact.anchor_ms,210_000);
+    }
+    #[test]
+    fn recent_snapshot_excludes_later_final_and_does_not_mutate_on_new_transcript(){
+        let req=CatchupRequest{anchor_ms:100_000,lookback_ms:60_000,mode:"ask".into(),question:String::new()};
+        let mut rows=vec![seg("future_overlap",90_000,110_000,true),seg("ready",50_000,80_000,true),seg("partial",80_000,100_000,false)];
+        let(actual,evidence)=prepare_window(&rows,&req,true).unwrap();
+        rows.push(seg("new",100_000,130_000,true));
+        assert_eq!(actual.anchor_ms,80_000);assert_eq!(evidence.len(),1);assert_eq!(evidence[0].id,"ready");
+        let(exact,parts)=prepare_window(&rows,&req,false).unwrap();assert_eq!(exact.anchor_ms,100_000);assert_eq!(parts.len(),2);
+    }
+    #[test]
+    fn recent_requires_non_empty_final_sentence(){
+        let req=CatchupRequest{anchor_ms:100_000,lookback_ms:60_000,mode:"layered".into(),question:String::new()};
+        let mut blank=seg("blank",0,50_000,true);blank.text="  ".into();
+        assert!(prepare_window(&[blank,seg("partial",0,100_000,false)],&req,true).is_err());
     }
     #[test]
     fn rejects_invented_deadlines_and_ids() {

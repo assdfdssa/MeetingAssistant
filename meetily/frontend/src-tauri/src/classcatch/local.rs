@@ -99,7 +99,8 @@ pub async fn test<R:Runtime>(app:&AppHandle<R>)->Result<Value,String>{
     // This runs actual ASR inference, but captures no microphone and sends no data.
     let result:Result<(),String>=async{
         engine.transcribe_audio(vec![0f32;16000]).await.map_err(|e|format!("本地语音推理测试失败：{}",e))?;
-        let reply=generate(app,"只输出OK，不要解释。","本地模型可用性测试",32).await?;
+        let prompt_settings=load_settings();
+        let reply=generate(app,effective_prompt(&prompt_settings,"local_test_system"),effective_prompt(&prompt_settings,"local_test_user"),32).await?;
         if !reply.to_ascii_uppercase().contains("OK") {return Err("本地摘要模型已运行，但未通过简短响应测试，请查看诊断记录".into());}
         Ok(())
     }.await;

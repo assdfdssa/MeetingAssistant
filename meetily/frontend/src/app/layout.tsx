@@ -6,5 +6,5 @@ export default function RootLayout({children}:{children:React.ReactNode}){
  const path=usePathname();
  // Native popups load /index.html?compact=1, whose pathname is not '/'.
  // Every entry point of this cloud classroom build must bypass legacy setup.
- return <html lang="zh-CN"><body>{path==='/'?children:<Classroom/>}</body></html>;
+ return <html lang="zh-CN"><head><title>课堂补听 · MeetingAssistant</title><link rel="icon" type="image/svg+xml" href="/classcatch-mark.svg"/></head><body>{path==='/'?children:<Classroom/>}</body></html>;
 }

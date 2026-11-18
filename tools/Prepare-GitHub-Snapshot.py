@@ -74,6 +74,8 @@ for folder in ["frontend/src-tauri/src/classcatch", "frontend/src/components/cla
         if file.is_file():
             add(file, "meetily/" + file.relative_to(SOURCE).as_posix())
 add(SOURCE / "frontend/scripts/build-classroom.cjs", "meetily/frontend/scripts/build-classroom.cjs")
+for name in ["frontend/src-tauri/icons/classcatch.svg", "frontend/public/classcatch-mark.svg"]:
+    add(SOURCE / name, "meetily/" + name)
 for name in ["README.md", "启动桌面版.cmd", "预览界面.cmd"]:
     add(ROOT / name, name)
 for folder in ["docs", "licenses"]:
@@ -83,7 +85,7 @@ for folder in ["docs", "licenses"]:
 for name in ["开始使用.md", "build-info.json"]:
     add(ROOT / "dist" / name, "dist/" + name)
 for file in (ROOT / "tools").iterdir():
-    if file.is_file() and file.suffix.lower() in {".ps1", ".py", ".cjs", ".json", ".txt"}:
+    if file.is_file() and not file.name.endswith(".local.json") and file.suffix.lower() in {".ps1", ".py", ".cjs", ".json", ".txt"}:
         add(file, "tools/" + file.name)
 for folder, directories, files in os.walk(ROOT / "tests"):
     directories[:] = [d for d in directories if d not in {"target", "node_modules", "__pycache__", ".git"}]
